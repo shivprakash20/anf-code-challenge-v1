@@ -96,5 +96,12 @@
             <artifactId>uber-jar</artifactId>
             <classifier>apis</classifier>
         </dependency>
+        <dependency>
+            <groupId>com.adobe.acs</groupId>
+            <artifactId>acs-aem-commons-content</artifactId>
+            <version>5.1.2</version>
+            <type>content-package</type>
+            <classifier>min</classifier>
+        </dependency>
     </dependencies>
 </project>
