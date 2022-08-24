@@ -75,6 +75,11 @@
                             <type>zip</type>
                             <target>/apps/anf-code-challenge-vendor-packages/application/install</target>
                         </embedded>
+                        <embedded>
+                            <groupId>com.adobe.acs</groupId>
+                            <artifactId>acs-aem-commons-content</artifactId>
+                            <target>/apps/anf-code-challenge-vendor-packages/application/install</target>
+                        </embedded>
                     </embeddeds>
                     <subPackages>
                     </subPackages>
