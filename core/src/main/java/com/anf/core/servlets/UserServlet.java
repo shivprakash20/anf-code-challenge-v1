@@ -15,22 +15,25 @@
  */
 package com.anf.core.servlets;
 
+import com.anf.core.configurations.AgeValidationNodePath;
 import com.anf.core.services.ContentService;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.apache.sling.servlets.annotations.SlingServletPaths;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.Objects;
 
 @Component(service = { Servlet.class })
-@SlingServletPaths(
-        value = "/bin/saveUserDetails"
-)
+@SlingServletPaths(value = "/bin/saveUserDetails")
 public class UserServlet extends SlingSafeMethodsServlet {
 
     private static final long serialVersionUID = 1L;
@@ -38,9 +41,38 @@ public class UserServlet extends SlingSafeMethodsServlet {
     @Reference
     private ContentService contentService;
 
+    private AgeValidationNodePath ageValidationNodePath;
+
+    @Activate
+    public void activate(AgeValidationNodePath config) {
+        this.ageValidationNodePath = config;
+    }
+
+    private int currnetAge;
+
     @Override
-    protected void doGet(final SlingHttpServletRequest req,
-            final SlingHttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(final SlingHttpServletRequest req, final SlingHttpServletResponse resp) throws ServletException, IOException {
         // Make use of ContentService to write the business logic
+        //Getting Current Age from request
+        currnetAge = Integer.parseInt(req.getParameter("inputAge"));
+
+        //Getting resource from given path
+        Resource resource = req.getResourceResolver().getResource(ageValidationNodePath.getAgeLimitPath());
+
+        assert resource != null;
+        ValueMap valueMap = resource.adaptTo(ValueMap.class);
+
+        //Fetching Max and Min age
+        assert valueMap != null;
+        int maxAge = Integer.parseInt(Objects.requireNonNull(valueMap.get("maxAge", String.class)));
+        int minAge = Integer.parseInt(Objects.requireNonNull(valueMap.get("minAge", String.class)));
+
+        //Sending response after validation
+        resp.setContentType("text/plain");
+        resp.setCharacterEncoding("UTF-8");
+        if(currnetAge >= minAge && currnetAge <= maxAge)
+            resp.getWriter().write("true");
+        else
+            resp.getWriter().write("false");
     }
 }
