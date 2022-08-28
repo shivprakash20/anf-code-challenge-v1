@@ -68,14 +68,6 @@
                             required="true"
                             rows="1"
                             type="text"/>
-                        <countrylist
-                            jcr:created="{Date}2022-08-28T10:33:24.310+05:30"
-                            jcr:createdBy="admin"
-                            jcr:lastModified="{Date}2022-08-28T10:33:35.873+05:30"
-                            jcr:lastModifiedBy="admin"
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="anf-code-challenge/components/form/countrylist"
-                            countries="Hungary"/>
                         <options
                             jcr:created="{Date}2022-08-28T10:52:41.107+05:30"
                             jcr:createdBy="admin"
