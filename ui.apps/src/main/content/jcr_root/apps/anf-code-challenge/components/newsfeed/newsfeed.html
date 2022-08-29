@@ -1,0 +1,23 @@
+<sly data-sly-test.mode="${wcmmode.edit}">
+    <p>News Feed Component</p>
+</sly>
+
+<sly data-sly-use.model="com.anf.core.models.NewsFeedModel">
+    <sly data-sly-list.values="${model.news}">
+        <div class="newsfeed-header">
+            <h1 class="newsfeed-title"> ${values.title} </h1>
+            <div class="newsfeed-author">
+                <h4> ${values.author}</h4>
+            </div>
+            <div class="newsfeed-description">
+                <p> ${values.description} </p>
+            </div>
+
+        </div>
+        <div class="newsfeed-image">
+            <a href="${values.url}">
+                <img src="${values.urlImage}" width="300" height="150" alt=${values.title}>
+            </a>
+        </div>
+    </sly>
+</sly>
